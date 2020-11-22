@@ -1,25 +1,40 @@
-import logo from './logo.svg';
+import React from "react"
 import './App.css';
+import CardList from "./components/CardList";
+import {friends} from "./components/array";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+
+  state = {
+    friends: friends,
+    searchInput: ""
+  }
+
+  handleChange = (e) => {
+    this.setState({
+      searchInput: e.target.value
+    }, () => console.log("InputTest", this.state.searchInput))
+
+    
+  }
+
+  render() {
+    const filteredFriends = this.state.friends.filter(friend => {
+      return friend.name.toLowerCase().includes(this.state.searchInput)
+    })
+
+    return (
+      <div>
+      <input type="text" id="searchInput" onChange={this.handleChange}/>
+        <CardList myFriends={filteredFriends} />
+      </div>
+    );
+  }
 }
 
+
+
 export default App;
+
+
+
